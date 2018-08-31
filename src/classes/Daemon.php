@@ -1,6 +1,7 @@
 <?php
 
 use Http\Client;
+use Exceptions\QueueException;
 use Phx\Polymerization\PyBridge;
 
 /**
@@ -36,11 +37,17 @@ final class Daemon
 	}
 
 	/**
+	 * @throws \Exceptions\QueueException
 	 * @return void
 	 */
 	private function getQueue(): void
 	{
-		$out = $this->py->run("show.py");
-		print $out;
+
+		$this->queue = json_decode($this->py->run("show.py"), true);
+
+		// Queue must be an array, at least an empty array [] if the database is empty.
+		if (! is_array($this->queue)) {
+			throw new QueueException("Could not get queue");
+		}
 	}
 }
