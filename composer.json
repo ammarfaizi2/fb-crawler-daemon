@@ -1,0 +1,12 @@
+{
+    "name": "ammarfaizi2/fb-crawler-daemon",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Ammar Faizi",
+            "email": "ammarfaizi2@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {}
+}
