@@ -93,9 +93,18 @@ final class Daemon
 		if ($ern = $st->errno()) {
 			throw new HttpClientException("{$ern}: ".$st->error());
 		}
+
+		$data = json_decode($st->getBody(), true);
+
+		if (! is_array($data)) {
+			icelog("Could not get the content");
+			icelog("Skipping...");
+			return;
+		}
+
 		$this->insertFetchedApiData(
 			$this->currentData["_id"],
-			json_decode($st->getBody(), true)
+			$data
 		);
 		$st->close();
 	}
@@ -108,19 +117,43 @@ final class Daemon
 	private function insertFetchedApiData(string $_queue_id, array $data): void
 	{
 		if (isset($data["user_info"], $data["user_posts"])) {
-			$insert9 = $this->py->run("insert_info.py", json_encode(
+
+			icelog("Running insert_info.py...");
+			$insert_info = $this->py->run("insert_info.py", json_encode(
 				[
 					"scraped_at" => date("Y-m-d H:i:s"),
 					"_queue_id" => $_queue_id,
 					"user_info" => $data["user_info"]
-				]
-			));
+				],
 
-			$this->py->run("insert_posts.py", json_encode(
+				// Uncomment "| JSON_PRETTY PRINT" to get pretty JSON.
+				JSON_UNESCAPED_SLASHES # | JSON_PRETTY_PRINT
+			));
+			// var_dump to $insert_info to see the insert_info.py STDOUT.
+			# var_dump($insert_info); die; # "die" means system exit
+
+			icelog("Running insert_posts.py...");
+			$insert_posts = $this->py->run("insert_posts.py", json_encode(
 				[
+					"scraped_at" => date("Y-m-d H:i:s"),
+					"_queue_id" => $_queue_id,
+					"user_posts" => $data["user_posts"]
+				],
 
-				]
+				// Uncomment "| JSON_PRETTY PRINT" to get pretty JSON.
+				JSON_UNESCAPED_SLASHES # | JSON_PRETTY_PRINT
 			));
+			// var_dump to $insert_posts to see the insert_posts.py STDOUT.
+			# var_dump($insert_posts); die; # "die" means system exit
+
+		} else {
+
+			// Coming soon... Let us finish the insert first.
+			// $not_found = $this->py->run("not_found.py", json_encode(
+			// 	[
+
+			// 	]
+			// ));
 		}
 	}
 }
