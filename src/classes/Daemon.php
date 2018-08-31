@@ -1,7 +1,7 @@
 <?php
 
 use Http\Client;
-use Phx\Polimerization\PyBridge;
+use Phx\Polymerization\PyBridge;
 
 /**
  * @author Ammar Faizi <ammarfaizi2@gmail.com>
@@ -40,6 +40,7 @@ final class Daemon
 	 */
 	private function getQueue(): void
 	{
-		$this->py->run("show.py");
+		$out = $this->py->run("show.py");
+		print $out;
 	}
 }
