@@ -3,8 +3,8 @@
 if (! defined("INIT")) {
 	define("INIT", 1);
 
-	require __DIR__."/../../config/init.php";
-	require __DIR__."/../../vendor/autoload.php";
+	require __DIR__."/../config/init.php";
+	require __DIR__."/../vendor/autoload.php";
 
 	if (! defined("BASEPATH")) {
 		print "BASEPATH is not defined!\n";

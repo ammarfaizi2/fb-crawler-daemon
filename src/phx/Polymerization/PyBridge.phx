@@ -32,7 +32,7 @@ final class PyBridge
 	 * @param string $stdin
 	 * @return string
 	 */
-	public function run(string $file, string $stdin): string
+	public function run(string $file, string $stdin = ""): string
 	{
 		/**
 		 * @see https://secure.php.net/manual/en/function.proc-open.php
@@ -46,7 +46,7 @@ final class PyBridge
 
 		$cwd = PY_HABITAT;
 
-		$process = proc_open("python3 {$file}", $descriptorspec, $pipes, $cwd, $this->env);
+		$process = proc_open("python3 \"{$file}\"", $descriptorspec, $pipes, $cwd, $this->env);
 
 		if (is_resource($process)) {
 			
