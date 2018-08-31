@@ -5,11 +5,19 @@ except:
 
 import json
 
-i = 1
 out = []
-for x in db.crawling_target.find({"account_type": "facebook-account"}):
-	x["_id"] = str(x["_id"])
-	x["insert_date"] = str(x["insert_date"])
-	out.append(x)
+
+search_query = [
+    {
+        "not_found": False, "crawling": False
+    }, {
+        "not_found": False, "crawling": True, "crawling_type": 'sustainable'
+    }
+]
+
+for data in db.crawling_target.find({"$or": search_query}):
+	data["_id"] = str(data["_id"])
+	data["insert_date"] = str(data["insert_date"])
+	out.append(data)
 
 print(json.dumps(out))
