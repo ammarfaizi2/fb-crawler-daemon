@@ -10,3 +10,9 @@ composer dumpautoload
 cd db_sample
 mongorestore -d privos ct/privos
 ```
+
+# Run
+```
+cd bin
+php daemond
+```
