@@ -102,6 +102,8 @@ final class Daemon
 			return;
 		}
 
+		icelog("Got reply from API");
+
 		$this->insertFetchedApiData(
 			$this->currentData["_id"],
 			$data
@@ -119,7 +121,7 @@ final class Daemon
 		if (isset($data["user_info"], $data["user_posts"])) {
 
 			icelog("Running insert_info.py...");
-			$insert_info = $this->py->run("insert_info.py", json_encode(
+			$insert_info = $this->py->run("insert_posts.py", json_encode(
 				[
 					"scraped_at" => date("Y-m-d H:i:s"),
 					"_queue_id" => $_queue_id,

@@ -94,7 +94,10 @@ final class Client
 	 */
 	public function close(): void
 	{
-		curl_close($this->ch);
+		if (isset($this->ch) && is_resource($this->ch)) {
+			curl_close($this->ch);
+			$this->ch = null;
+		}
 	}
 
 	/**
