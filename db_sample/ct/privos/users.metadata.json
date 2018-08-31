@@ -1,0 +1,1 @@
+{"options":{"capped":true,"size":1.073741824e+09},"indexes":[{"v":2,"key":{"_id":1},"name":"_id_","ns":"privos.users"}],"uuid":"9615c0017e4f4e219a68853019ea9bec"}
