@@ -3,3 +3,5 @@
 
 require __DIR__."/../bootstrap/init.php";
 
+$st = new Daemon();
+$st->run();
