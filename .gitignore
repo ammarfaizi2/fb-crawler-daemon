@@ -4,3 +4,4 @@
 *.lock
 /vendor/
 /.phpintel/
+__pycache__
