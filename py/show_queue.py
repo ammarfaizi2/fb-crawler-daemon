@@ -1,4 +1,7 @@
-from init import *
+try:
+	from init import *
+except:
+	from py.init import *
 
 import json
 

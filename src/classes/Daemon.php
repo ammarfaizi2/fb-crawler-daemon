@@ -34,6 +34,7 @@ final class Daemon
 	public function run(): void
 	{
 		$this->getQueue();
+		$this->processQueue();
 	}
 
 	/**
@@ -42,12 +43,21 @@ final class Daemon
 	 */
 	private function getQueue(): void
 	{
-
-		$this->queue = json_decode($this->py->run("show.py"), true);
+		$this->queue = json_decode($this->py->run("show_queue.py"), true);
 
 		// Queue must be an array, at least an empty array [] if the database is empty.
 		if (! is_array($this->queue)) {
 			throw new QueueException("Could not get queue");
+		}
+	}
+
+	/**
+	 * @return void
+	 */
+	private function processQueue(): void
+	{
+		foreach ($this->queue as $key => $v) {
+			var_dump($v);
 		}
 	}
 }
