@@ -48,7 +48,7 @@ final class Client
 			CURLOPT_SSL_VERIFYHOST => false
 		];
 
-		foreach ($opt as $key => $value) {
+		foreach ($this->opt as $key => $value) {
 			$optf[$key] = $value;
 		}
 
