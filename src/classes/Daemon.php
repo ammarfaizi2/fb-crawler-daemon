@@ -107,9 +107,8 @@ final class Daemon
 	 */
 	private function insertFetchedApiData(string $_queue_id, array $data): void
 	{
-		var_dump($_queue_id, $data);die;
 		if (isset($data["user_info"], $data["user_posts"])) {
-			$this->py->run("insert_info.py", json_encode(
+			$insert9 = $this->py->run("insert_info.py", json_encode(
 				[
 					"scraped_at" => date("Y-m-d H:i:s"),
 					"_queue_id" => $_queue_id,
