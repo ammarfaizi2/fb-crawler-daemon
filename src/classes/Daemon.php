@@ -139,9 +139,6 @@ final class Daemon
 	private function insertFetchedApiData(string $_queue_id, array $data): void
 	{
 		if (isset($data["user_info"], $data["user_posts"])) {
-
-
-
 			icelog("Running insert_info.py...");
 			$insert_info = $this->py->run("insert_info.py", json_encode(
 				[
