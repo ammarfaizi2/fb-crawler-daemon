@@ -2,6 +2,8 @@
 
 namespace Http;
 
+use Exceptions\HttpClientException;
+
 /**
  * @author Ammar Faizi <ammarfaizi2@gmail.com>
  * @package \Http
@@ -55,6 +57,10 @@ final class Client
 		curl_setopt_array($this->ch, $optf);
 
 		$this->out = curl_exec($this->ch);
+
+		if ($ern = $this->errno()) {
+			throw new HttpClientException("{$ern}: ".$this->error());
+		}
 	}
 
 	/**
@@ -76,7 +82,7 @@ final class Client
 	/**
 	 * @return int
 	 */
-	public function error(): int
+	public function error(): string
 	{
 		return curl_error($this->ch);
 	}

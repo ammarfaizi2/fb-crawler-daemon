@@ -9,7 +9,7 @@ use Phx\Polymerization\PyBridge;
  * @author Ammar Faizi <ammarfaizi2@gmail.com>
  * @since 0.0.1
  */
-final class Daemon
+final class UserDaemon
 {
 	/**
 	 * @var array
@@ -29,7 +29,7 @@ final class Daemon
 	/**
 	 * @var int
 	 */
-	private $endPage = 10;
+	private $endPage = 30;
 
 	/**
 	 * @var bool
@@ -88,7 +88,7 @@ final class Daemon
 			//
 		} else {
 			foreach ($this->queue as $key => $v) {
-				icelog("Processing target \"%s\"...", $v["target"]);
+				icelog("Processing %s target \"%s\"...", $v["crawling_type"], $v["target"]);
 				$this->currentData = $v;
 				$this->fetchApi();
 			}
@@ -107,11 +107,12 @@ final class Daemon
 			]
 		);
 
-		$st = new Client(API_URL."/fbcx.php?{$queryString}");
-		$st->exec();
-
-		if ($ern = $st->errno()) {
-			throw new HttpClientException("{$ern}: ".$st->error());
+		try {
+			$st = new Client(API_URL."/fbcx.php?{$queryString}");
+			$st->exec();	
+		} catch (HttpClientException $e) {
+			icelog("An error occured %s", $e->getMessage());
+			return;
 		}
 
 		$data = json_decode($st->getBody(), true);
@@ -172,18 +173,15 @@ final class Daemon
 
 		} else {
 
+			if ($data["error"] == 404) {
+				icelog("Running not_found.py");
 
-			// Update field not_found to true where _id = $_queue_id
-			// Note: true in boolean (not string)
-			//
-			// In SQL image: UPDATE crawling_target SET not_found = true WHERE _id = $_queue_id
-			$not_found = $this->py->run("not_found.py", json_encode(
-				[
-					"scraped_at" => date("Y-m-d H:i:s"),
-					"_queue_id" => $_queue_id
-				]
-			));
+				$not_found = $this->py->run("not_found.py", json_encode(
+					["_queue_id" => $_queue_id]
+				));
 
+				# var_dump($not_found); die; 
+			}
 
 		}
 	}
