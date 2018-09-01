@@ -29,7 +29,7 @@ final class Daemon
 	/**
 	 * @var int
 	 */
-	private $endPage = 0;
+	private $endPage = 10;
 
 	/**
 	 * @var bool
