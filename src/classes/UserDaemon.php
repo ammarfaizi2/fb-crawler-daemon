@@ -108,7 +108,9 @@ final class UserDaemon
 		);
 
 		try {
-			$st = new Client(API_URL."/fbcx.php?{$queryString}");
+			$url = API_URL."/fbcx.php?{$queryString}";
+			icelog("Fetching {$url}...");
+			$st = new Client($url);
 			$st->exec();	
 		} catch (HttpClientException $e) {
 			icelog("An error occured %s", $e->getMessage());
@@ -174,7 +176,7 @@ final class UserDaemon
 		} else {
 
 			if ($data["error"] == 404) {
-				icelog("Running not_found.py");
+				icelog("Running not_found.py...");
 
 				$not_found = $this->py->run("not_found.py", json_encode(
 					["_queue_id" => $_queue_id]

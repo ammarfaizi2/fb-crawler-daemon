@@ -2,6 +2,6 @@
 <?php
 
 require __DIR__."/../bootstrap/init.php";
-
+icelog("Running user_daemond...");
 $st = new UserDaemon();
 $st->run();
