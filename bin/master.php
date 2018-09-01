@@ -21,7 +21,7 @@ foreach ($workers as $key => $value) {
     $descriptorspec = array(
        0 => array("pipe", "r"),
        1 => array("pipe", "w"),
-       2 => array("pipe", STDOUT, "a")
+       2 => array("pipe", "w")
     );
 
     $cwd = __DIR__;
