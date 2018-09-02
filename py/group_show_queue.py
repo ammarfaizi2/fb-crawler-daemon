@@ -16,7 +16,7 @@ status_search_query = {
         }
     ]
 }
-group_search_query = {"group_name": "akun facebook"}
+group_search_query = {"account_type": "facebook-group"}
 
 for data in db.crawling_target.find({"$and": [status_search_query, group_search_query]}):
 	data["_id"] = str(data["_id"])
