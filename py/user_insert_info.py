@@ -8,7 +8,7 @@ def upsert_to_info(json_input):
     search_query = {
         "_queue_id": queue_id,
     }
-    db.crawling_info.update(
+    db.crawling_user_info.update(
         search_query,
         json_input,
         **{

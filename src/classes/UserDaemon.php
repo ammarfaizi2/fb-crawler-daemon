@@ -59,8 +59,8 @@ final class UserDaemon
 	 */
 	private function getQueue(): void
 	{
-		icelog("Running show_queue.py...");
-		$stdout = $this->py->run("show_queue.py");
+		icelog("Running user_show_queue.py...");
+		$stdout = $this->py->run("user_show_queue.py");
 		
 		# var_dump($stdout); die;
 
@@ -142,8 +142,8 @@ final class UserDaemon
 	private function insertFetchedApiData(string $_queue_id, array $data): void
 	{
 		if (isset($data["user_info"], $data["user_posts"])) {
-			icelog("Running insert_info.py...");
-			$insert_info = $this->py->run("insert_info.py", json_encode(
+			icelog("Running user_insert_info.py...");
+			$insert_info = $this->py->run("user_insert_info.py", json_encode(
 				[
 					"scraped_at" => date("Y-m-d H:i:s"),
 					"_queue_id" => $_queue_id,
@@ -158,8 +158,8 @@ final class UserDaemon
 
 
 
-			icelog("Running insert_posts.py...");
-			$insert_posts = $this->py->run("insert_posts.py", json_encode(
+			icelog("Running user_insert_posts.py...");
+			$insert_posts = $this->py->run("user_insert_posts.py", json_encode(
 				[
 					"scraped_at" => date("Y-m-d H:i:s"),
 					"_queue_id" => $_queue_id,
@@ -176,9 +176,9 @@ final class UserDaemon
 		} else {
 
 			if ($data["error"] == 404) {
-				icelog("Running not_found.py...");
+				icelog("Running user_not_found.py...");
 
-				$not_found = $this->py->run("not_found.py", json_encode(
+				$not_found = $this->py->run("user_not_found.py", json_encode(
 					["_queue_id" => $_queue_id]
 				));
 

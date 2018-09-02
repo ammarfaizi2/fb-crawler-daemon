@@ -5,7 +5,7 @@ from bson.objectid import ObjectId
 
 def upsert_to_post(json_input):
     queue_id = json_input["_queue_id"]
-    collection = db.crawling_post
+    collection = db.crawling_user_post
     search_query = {
         "_queue_id": queue_id,
     }
@@ -26,7 +26,7 @@ def upsert_to_post(json_input):
         posts.update(new_posts)
         json_input['user_posts'] = posts
 
-        db.crawling_post.update(
+        collection.update(
             search_query,
             json_input,
             **{
@@ -34,7 +34,7 @@ def upsert_to_post(json_input):
             }
         )
     else:
-        db.crawling_post.insert_one(json_input)
+        collection.insert_one(json_input)
 
 realinput = process_stdin()
 
