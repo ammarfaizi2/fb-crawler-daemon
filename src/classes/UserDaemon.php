@@ -145,7 +145,7 @@ final class UserDaemon
 			icelog("Running user_insert_info.py...");
 			$insert_info = $this->py->run("user_insert_info.py", json_encode(
 				[
-					"scraped_at" => date("Y-m-d H:i:s"),
+					"scraped_at" => time(),
 					"_queue_id" => $_queue_id,
 					"user_info" => $data["user_info"]
 				],
@@ -161,7 +161,7 @@ final class UserDaemon
 			icelog("Running user_insert_posts.py...");
 			$insert_posts = $this->py->run("user_insert_posts.py", json_encode(
 				[
-					"scraped_at" => date("Y-m-d H:i:s"),
+					"scraped_at" => time(),
 					"_queue_id" => $_queue_id,
 					"user_posts" => $data["user_posts"]
 				],

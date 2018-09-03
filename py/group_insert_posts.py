@@ -2,6 +2,7 @@ from init import *
 import json
 
 from bson.objectid import ObjectId
+from sentistrength_id.sentistrength_id import senti
 
 def upsert_to_post(json_input):
     queue_id = json_input["_queue_id"]
@@ -11,6 +12,10 @@ def upsert_to_post(json_input):
     }
 
     current_document = collection.find_one(search_query)
+
+    for post in current_document['group_posts']:
+        sentiment_result = senti.main(post['caption'] or post['text'])
+        post['sentiment'] = sentiment_result
 
     if current_document is not None:
         current_document['scraped_at'] = json_input['scraped_at']
@@ -24,6 +29,7 @@ def upsert_to_post(json_input):
             for item in json_input['group_posts']
         }
         posts.update(new_posts)
+
         json_input['group_posts'] = posts
 
         collection.update(

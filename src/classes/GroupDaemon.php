@@ -144,7 +144,7 @@ final class GroupDaemon
 			icelog("Running group_insert_info.py...");
 			$insert_info = $this->py->run("group_insert_info.py", json_encode(
 				[
-					"scraped_at" => date("Y-m-d H:i:s"),
+					"scraped_at" => time(),
 					"_queue_id" => $_queue_id,
 					"group_info" => $data["group_info"]
 				],
@@ -160,7 +160,7 @@ final class GroupDaemon
 			icelog("Running group_insert_posts.py...");
 			$insert_posts = $this->py->run("group_insert_posts.py", json_encode(
 				[
-					"scraped_at" => date("Y-m-d H:i:s"),
+					"scraped_at" => time(),
 					"_queue_id" => $_queue_id,
 					"group_posts" => $data["group_posts"]
 				],
