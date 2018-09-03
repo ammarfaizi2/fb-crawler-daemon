@@ -14,7 +14,7 @@ def upsert_to_post(json_input):
     current_document = collection.find_one(search_query)
 
     for post in current_document['user_posts']:
-        sentiment_result = senti.main(post['caption'] or post['text'])
+        sentiment_result = senti.main(post.get('caption') or post.get('text'))
         post['sentiment'] = sentiment_result
 
     if current_document is not None:
