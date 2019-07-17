@@ -1,11 +1,6 @@
 #!/usr/bin/env php
 <?php
-// Comment out the `sleep` when you are already been developing group_daemon
-// 
-// We are using sleep to see the daemon process tree.
-// You can use "pstree -paul | grep daemon" to see them.
-//
-sleep(99999);
+
 require __DIR__."/../bootstrap/init.php";
 icelog("Running group_daemond...");
 $st = new GroupDaemon();
